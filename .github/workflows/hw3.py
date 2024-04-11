@@ -12,11 +12,8 @@ data['Day_of_Week'] = data['Date'].dt.day_name()
 
 weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 weekday_data = data[data['Day_of_Week'].isin(weekdays)]
-
-# Aggregate pedestrian counts for each day of the week
 daily_counts = weekday_data.groupby('Day_of_Week')['Brooklyn Bridge'].mean()
 
-# Plotting
 plt.figure(figsize=(10, 6))
 sns.lineplot(x=daily_counts.index, y=daily_counts.values, marker='o')
 plt.title('Average Pedestrian Counts on Brooklyn Bridge (Weekdays)')
