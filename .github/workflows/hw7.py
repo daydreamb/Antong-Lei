@@ -23,7 +23,6 @@ linear_reg = LinearRegression()
 linear_reg.fit(X_train_scaled, y_train)
 linear_pred = linear_reg.predict(X_test_scaled)
 
-# Compute evaluation metrics for Linear Regression
 linear_mae = mean_absolute_error(y_test, linear_pred)
 linear_mse = mean_squared_error(y_test, linear_pred)
 
@@ -31,28 +30,3 @@ print("Linear Regression:")
 print("Mean Absolute Error:", linear_mae)
 print("Mean Squared Error:", linear_mse)
 
-# Ridge Regression
-ridge_reg = Ridge(alpha=1.0)
-ridge_reg.fit(X_train_scaled, y_train)
-ridge_pred = ridge_reg.predict(X_test_scaled)
-
-# Compute evaluation metrics for Ridge Regression
-ridge_mae = mean_absolute_error(y_test, ridge_pred)
-ridge_mse = mean_squared_error(y_test, ridge_pred)
-
-print("\nRidge Regression:")
-print("Mean Absolute Error:", ridge_mae)
-print("Mean Squared Error:", ridge_mse)
-
-# Lasso Regression
-lasso_reg = Lasso(alpha=1.0)
-lasso_reg.fit(X_train_scaled, y_train)
-lasso_pred = lasso_reg.predict(X_test_scaled)
-
-# Compute evaluation metrics for Lasso Regression
-lasso_mae = mean_absolute_error(y_test, lasso_pred)
-lasso_mse = mean_squared_error(y_test, lasso_pred)
-
-print("\nLasso Regression:")
-print("Mean Absolute Error:", lasso_mae)
-print("Mean Squared Error:", lasso_mse)
