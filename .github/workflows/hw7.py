@@ -1,38 +1,58 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, precision_score, recall_score
+from sklearn.linear_model import LinearRegression, Ridge, Lasso
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.preprocessing import StandardScaler
 
 # Load data
-url = 'https://raw.githubusercontent.com/yourusername/glass.csv'
-data = pd.read_csv(url)
+data_url = "https://github.com/abirami1998/NYU-Data-Science-Bootcamp-Spring-2024/raw/main/Week%206/employee.csv"
+df = pd.read_csv(data_url)
 
-# Preprocess data
-# Handle missing values if any
-# Convert categorical variables to numerical if any
-
-# Split data into features and target
-X = data.drop(columns=['target_column'])  # replace 'target_column' with the actual target column name
-y = data['target_column']
-
-# Split data into training and testing sets
+# Preprocessing
+X = df.drop(columns=['Salary'])
+y = df['Salary']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Fit logistic regression model
-model = LogisticRegression()
-model.fit(X_train, y_train)
+# Standardize features
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
 
-# Compute predictions
-# Example for 'Al' column
-threshold = 0.5  # default threshold
-probs = model.predict_proba(X_test)[:, 1]
-y_pred = (probs > threshold).astype(int)
+# Linear Regression
+linear_reg = LinearRegression()
+linear_reg.fit(X_train_scaled, y_train)
+linear_pred = linear_reg.predict(X_test_scaled)
 
-# Evaluate metrics
-accuracy = accuracy_score(y_test, y_pred)
-precision = precision_score(y_test, y_pred)
-recall = recall_score(y_test, y_pred)
+# Compute evaluation metrics for Linear Regression
+linear_mae = mean_absolute_error(y_test, linear_pred)
+linear_mse = mean_squared_error(y_test, linear_pred)
 
-print(f"Accuracy: {accuracy}, Precision: {precision}, Recall: {recall}")
+print("Linear Regression:")
+print("Mean Absolute Error:", linear_mae)
+print("Mean Squared Error:", linear_mse)
 
+# Ridge Regression
+ridge_reg = Ridge(alpha=1.0)
+ridge_reg.fit(X_train_scaled, y_train)
+ridge_pred = ridge_reg.predict(X_test_scaled)
+
+# Compute evaluation metrics for Ridge Regression
+ridge_mae = mean_absolute_error(y_test, ridge_pred)
+ridge_mse = mean_squared_error(y_test, ridge_pred)
+
+print("\nRidge Regression:")
+print("Mean Absolute Error:", ridge_mae)
+print("Mean Squared Error:", ridge_mse)
+
+# Lasso Regression
+lasso_reg = Lasso(alpha=1.0)
+lasso_reg.fit(X_train_scaled, y_train)
+lasso_pred = lasso_reg.predict(X_test_scaled)
+
+# Compute evaluation metrics for Lasso Regression
+lasso_mae = mean_absolute_error(y_test, lasso_pred)
+lasso_mse = mean_squared_error(y_test, lasso_pred)
+
+print("\nLasso Regression:")
+print("Mean Absolute Error:", lasso_mae)
+print("Mean Squared Error:", lasso_mse)
